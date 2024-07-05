@@ -1,3 +1,8 @@
+
+Ressources : 
+------------
+- Github repo : https://gitlab.com/nanuchi/techworld-js-docker-demo-app.git
+
 - Container is a running environnement for IMAGE
 1. application image : postgres, mongo, redis ...
 2. port binded : talk to application running inside of container
@@ -135,8 +140,30 @@ Removing network techworld-js-docker-demo-app_default
 NB: Look the last line, it removes the network also
 
 
+############# DOCKERFILES ###############
+- We weill simulate - using a JS application - what Jenkins does to package ad a DOCKER IMAGE our application 
+and PUSH them in repositories
 
+- What is dockerfile ??
+is a blueprint (plan en français :p) for building images
 
+DockerFile Syntax:
+-------------------
+FROM node    => equivalent to : install node
+
+ENV MONGO_DB_USERNAME=admin \      => equivalent to : setMONGO_DB_USERNAME=admin
+    MONGO_DB_PWD=pasword           => quivalent to :  set MONGO_DB_PWD=pasword
+
+## RUN => execute any linux command 
+RUN mkdir -p /home/app   => directory created INSIDE of the CONTAINER
+
+## COPY => executes on the HOST MACHINE !!!!
+COPY . /home/app         => copy current folder files to /home/app
+
+## CMD => enrypoint command
+## you can have multiple RUN commands
+CMD["node", "server.js"]  => equivalent to : node server.js
+NB: Node is pre-installed because of base image 
 
 
 
