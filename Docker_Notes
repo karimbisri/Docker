@@ -34,9 +34,108 @@ because images are created to be light weight, so if we need curl for example :
 root@02b9f3685296:/data# apt-get install curl
 
 
-
 =========== DEMO PROJECT OVERVIEW =============
 how docker is used in : [Development - CICD - Deployment]
+- JS ans NodeJS App
+- MongoDB Docker Container
+- MongoExpress Container for UI
+
+Let's go:
+---------
+- pull mongo images:
+$ docker pull mongo
+$ docker pull mongo-express
+
+- Run both mongo and mongo-express Containers : 
+- BUT WAIT, we must configure NETWORKING between the two containers
+$ docker network create mongo-network
+$ docker network ls
+  NETWORK ID     NAME            DRIVER    SCOPE
+  43d20053baa6   bridge          bridge    local
+  9106c70c01ca   host            host      local
+  a478887066fb   minikube        bridge    local
+  6547d0246cfc   mongo-network   bridge    local
+  52d2c05165f4   none            null      local
+
+- Run mongodb server
+$ docker run -d \
+-p 27017:27017 \
+-e MONGO_INITDB_ROOT_USERNAME=admin \
+-e MONGO_INITDB_ROOT_PASSWORD=password \
+--name mongodb \
+--net mongo-network \
+mongo
+
+
+- Run mongoexpress GUI:
+docker run -d \
+-p 8081:8081 \
+-e ME_CONFIG_MONGODB_ADMINUSERNAME=admin \
+-e ME_CONFIG_MONGODB_ADMINPASSWORD=password \
+-e ME_CONFIG_MONGODB_SERVER=mongodb \
+--net mongo-network \
+--name mongo-express \
+mongo-express
+
+=> connect to mongo-express to http://localhost:8081/
+create a new database called user-account
+
+- create user-account db and users collection in mongo-express
+- Start your nodejs application locally - go to app directory of project
+$ git clone https://gitlab.com/nanuchi/techworld-js-docker-demo-app.git
+$ npm install 
+$ node server.js
+
+- Access you nodejs application UI from browser
+http://localhost:3000
+
+- update the user
+- check logs of mongo container
+$ docker logs 45954115ade4 | tail
+
+- stream the logs on real time
+$ docker logs 45954115ade4 -f
+
+
+
+########### DOCKER COMPOSE ############
+=> TO start TWO CONTAINERS : mongoDB & mongo Express
+NB: For docker compose, we dont need to create a neworking, docker compose do that !!!!
+
+version: "3"
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8082:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+
+- To start the docker compose:
+$ docker-compose -f docker_compose.yml up
+- To Stop docker compose:
+$ docker-compose -f docker-compose.yaml down
+
+Stopping techworld-js-docker-demo-app_mongodb_1       ... done
+Stopping techworld-js-docker-demo-app_mongo-express_1 ... done
+Removing techworld-js-docker-demo-app_mongodb_1       ... done
+Removing techworld-js-docker-demo-app_mongo-express_1 ... done
+Removing network techworld-js-docker-demo-app_default
+
+NB: Look the last line, it removes the network also
+
+
+
 
 
 
