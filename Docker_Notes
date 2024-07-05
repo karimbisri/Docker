@@ -1,0 +1,47 @@
+- Container is a running environnement for IMAGE
+1. application image : postgres, mongo, redis ...
+2. port binded : talk to application running inside of container
+3. virtual file system
+$ docker pull redis
+
+========= DEBUGING containers =============
+docker run = docker pull + docker start
+docker stop
+docker start
+docker run -d -pHostPort:ContainerPort
+-d : detached mode
+-p : port
+docker ps -a : running and dtopped containers
+docker images
+
+
+=========== TROUBSHOUTING COMMANDS ^============
+docker run --name some-redis -d redis
+docker logs cotainer_id
+
+##Running  a new redis container (different port number)
+$ docker run --name redis-older -d -p6001:6379 redis:4.0 
+
+stop the first container:
+$ docker stop cc06ca1a2f15
+
+docker logs :
+$ docker logs redis-older
+
+Docker exec:
+docker exec -it 02b9f3685296 /bin/bash
+because images are created to be light weight, so if we need curl for example : 
+root@02b9f3685296:/data# apt-get install curl
+
+
+
+=========== DEMO PROJECT OVERVIEW =============
+how docker is used in : [Development - CICD - Deployment]
+
+
+
+
+
+
+
+
