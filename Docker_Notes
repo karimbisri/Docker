@@ -201,7 +201,7 @@ $ docker exec -it 490d0b23b1b1 /bin/sh
 
 ############# DOCER VOLUMES #######################
 
- 🗃️ For DATA PERSISTENCE : DB, Statefull applications, ...
+ 🛢️ For DATA PERSISTENCE : DB, Statefull applications, ...
 
 When do we need Docker Volumes ?
 - Data is GONE when testarting or removing the Container ❌
@@ -219,5 +219,22 @@ ________________________________
 |       /home/mount/data 🔌------------------> HOST FILE SYSTEM (PHYSICAL ⚠️)
 |_______________________________|
 
-Folder in PHYSICAL host file system 🖥️ is MOUNTED or PLUGED🔌 into the virtual file system of container
+- Folder in PHYSICAL host file system 🖥️ is MOUNTED or PLUGED🔌 into the virtual file system of container
 
+- There is 3 types of volumes, but we will see just 2 : 
+
+☑️ 1 : HOST VOLUMES:
+--------------------
+$ docker run -v /home/mount/data:/var/lib/mysql/data
+-> /home/mount/data : Host directory
+-> /var/lib/mysql/data : Container Directory
+✅ you decide WHERE ON THE HOST FILE SYSTEM the reference is made
+
+
+
+☑️ 2 : NAMED  VOLUMES  ( ⭐ the used one in production envs ):
+---------------------------------------------------------------
+$ docker run -v name:/var/lib/mysql/data
+-> /var/lib/mysql/data : Container Directory
+✅ you can REFERENCE the volume BY NAME
+✅ Should be used in production
