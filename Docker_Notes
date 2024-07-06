@@ -148,7 +148,7 @@ and PUSH them in repositories
 is a blueprint (plan en français :p) for building images
 
 DockerFile Syntax:
--------------------
+-----------------------------------------------------------------------------------
 FROM node    => equivalent to : install node
 
 ENV MONGO_DB_USERNAME=admin \      => equivalent to : setMONGO_DB_USERNAME=admin
@@ -160,14 +160,35 @@ RUN mkdir -p /home/app   => directory created INSIDE of the CONTAINER
 ## COPY => executes on the HOST MACHINE !!!!
 COPY . /home/app         => copy current folder files to /home/app
 
+# set default dir so that next commands executes in /home/app dir
+WORKDIR /home/app
+
+# will execute npm install in /home/app because of WORKDIR
+RUN npm install
+
 ## CMD => enrypoint command
 ## you can have multiple RUN commands
 CMD["node", "server.js"]  => equivalent to : node server.js
 NB: Node is pre-installed because of base image 
+----------------------------------------------------------------------------------
 
 
+NB:
+**********************************
+** EVERY IMAGE USE A BASE IMAGE **
+**********************************
+
+- SO the diagram of images layers is like that
+==================
+= my-js-app:1.0  =   FROM node:13-alpine
+==================
+= node:13-alpine =   FROM alpine:3.10
+==================
+= alpine:3.10    =
+==================
 
 
-
+- Build docker image from dockerfile:
+$ docker build -t (tag) my-app:1.0 .
 
 
