@@ -191,4 +191,33 @@ NB:
 - Build docker image from dockerfile:
 $ docker build -t (tag) my-app:1.0 .
 
+- To Access container
+$ docker exec -it 490d0b23b1b1 /bin/sh 
+
+
+
+############# PRIVATE DOCKER REGISTRY ############
+
+
+############# DOCER VOLUMES #######################
+
+ 🗃️ For DATA PERSISTENCE : DB, Statefull applications, ...
+
+When do we need Docker Volumes ?
+- Data is GONE when testarting or removing the Container ❌
+
+What is Docker Volumes ❓
+
+________________________________
+|            HOST 🖥️           |
+|   ________________________    |
+|   |     CONTAINER🐳      |   |
+|   |                       |   |
+|   |  /var/lib/mysql/data ------------------> Virtual File System
+|   |_______________________|   |
+|                               |
+|       /home/mount/data 🔌------------------> HOST FILE SYSTEM (PHYSICAL ⚠️)
+|_______________________________|
+
+Folder in PHYSICAL host file system 🖥️ is MOUNTED or PLUGED🔌 into the virtual file system of container
 
