@@ -204,7 +204,7 @@ $ docker exec -it 490d0b23b1b1 /bin/sh
  🛢️ For DATA PERSISTENCE : DB, Statefull applications, ...
 
 When do we need Docker Volumes ?
-- Data is GONE when testarting or removing the Container ❌
+- Data is GONE when Restarting or Removing the Container ❌
 
 What is Docker Volumes ❓
 
@@ -238,3 +238,33 @@ $ docker run -v name:/var/lib/mysql/data
 -> /var/lib/mysql/data : Container Directory
 ✅ you can REFERENCE the volume BY NAME
 ✅ Should be used in production
+
+- ⬇️ Define  Named Volume in docker-compose file ⬇️ :
+▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️
+version: "3"
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+  volumes:
+    - mongo-data:/data/db     ## /data/db is the repo when mongo container store its data
+                              ## that mean : attaching our volume "mongo-data" in the host to /data/db inside 
+                              ## the container
+                              ## 🔹 mysql : /var/lib/mysql
+                              ## 🔹 postgres : /var/lib/postgres/data
+  mongo-express:
+    image: mongo-express
+    ports:
+      - 8082:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=password
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+
+volumes:              ## List all the volumes you are using in any of your containers
+  mongo-data:         ## Name of the volume
+    driver: local     ## Docker will create that PHYSICAL STORAGE 🛢️ in the LOCAL file system
