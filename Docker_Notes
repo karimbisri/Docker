@@ -18,6 +18,7 @@ docker run -d -pHostPort:ContainerPort
 -p : port
 docker ps -a : running and dtopped containers
 docker images
+docker rm container-id
 
 
 =========== TROUBSHOUTING COMMANDS ^============
@@ -231,7 +232,6 @@ $ docker run -v /home/mount/data:/var/lib/mysql/data
 ✅ you decide WHERE ON THE HOST FILE SYSTEM the reference is made
 
 
-
 ☑️ 2 : NAMED  VOLUMES  ( ⭐ the used one in production envs ):
 ---------------------------------------------------------------
 $ docker run -v name:/var/lib/mysql/data
@@ -239,8 +239,10 @@ $ docker run -v name:/var/lib/mysql/data
 ✅ you can REFERENCE the volume BY NAME
 ✅ Should be used in production
 
-- ⬇️ Define  Named Volume in docker-compose file ⬇️ :
-▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️
+
+
+⬇️ Define NAMED VOLUME in docker-compose file ⬇️ :
+▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️
 version: "3"
 services:
   mongodb:
@@ -268,3 +270,12 @@ services:
 volumes:              ## List all the volumes you are using in any of your containers
   mongo-data:         ## Name of the volume
     driver: local     ## Docker will create that PHYSICAL STORAGE 🛢️ in the LOCAL file system
+▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️
+
+😀 Now you can Stop/Restart the docker compose and you will see that the data persist 👍👍
+
+- Soo ... where the docker Volumes are located ❓❓
+🛢️ For linux and Mac, DATA is STORED in /var/lib/docker/volumes
+
+
+
