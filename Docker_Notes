@@ -9,7 +9,7 @@ Ressources :
 3. virtual file system
 $ docker pull redis
 
-========= DEBUGING containers =============
+✔️ ========= DEBUGING containers =============
 docker run = docker pull + docker start
 docker stop
 docker start
@@ -21,26 +21,26 @@ docker images
 docker rm container-id
 
 
-=========== TROUBSHOUTING COMMANDS ^============
+✔️ =========== TROUBSHOUTING COMMANDS ============
 docker run --name some-redis -d redis
 docker logs cotainer_id
 
 ##Running  a new redis container (different port number)
 $ docker run --name redis-older -d -p6001:6379 redis:4.0 
 
-stop the first container:
+- stop the first container:
 $ docker stop cc06ca1a2f15
 
-docker logs :
+- docker logs :
 $ docker logs redis-older
 
-Docker exec:
+- Log into container :
 docker exec -it 02b9f3685296 /bin/bash
 because images are created to be light weight, so if we need curl for example : 
 root@02b9f3685296:/data# apt-get install curl
 
 
-=========== DEMO PROJECT OVERVIEW =============
+✔️ =========== DEMO PROJECT OVERVIEW =============
 how docker is used in : [Development - CICD - Deployment]
 - JS ans NodeJS App
 - MongoDB Docker Container
@@ -103,11 +103,12 @@ $ docker logs 45954115ade4 | tail
 $ docker logs 45954115ade4 -f
 
 
+✔️ ########### DOCKER COMPOSE ############
+=> TO start TWO (or many) CONTAINERS : mongoDB & mongo Express
+🔔 NB: For docker compose, we dont need to create a neworking, docker compose do that !!!! 👍👍
 
-########### DOCKER COMPOSE ############
-=> TO start TWO CONTAINERS : mongoDB & mongo Express
-NB: For docker compose, we dont need to create a neworking, docker compose do that !!!!
-
+▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️
+📄 docker-compose.file:
 version: "3"
 services:
   mongodb:
@@ -126,6 +127,7 @@ services:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=admin
       - ME_CONFIG_MONGODB_ADMINPASSWORD=password
       - ME_CONFIG_MONGODB_SERVER=mongodb
+▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️
 
 - To start the docker compose:
 $ docker-compose -f docker_compose.yml up
@@ -138,46 +140,46 @@ Removing techworld-js-docker-demo-app_mongodb_1       ... done
 Removing techworld-js-docker-demo-app_mongo-express_1 ... done
 Removing network techworld-js-docker-demo-app_default
 
-NB: Look the last line, it removes the network also
+🔔 NB: Look the last line, it removes the network also 👍
 
 
-############# DOCKERFILES ###############
-- We weill simulate - using a JS application - what Jenkins does to package ad a DOCKER IMAGE our application 
+✔️ ############# DOCKERFILES ###############
+- We will simulate - using a JS application - what Jenkins does to package ad a DOCKER IMAGE our application 
 and PUSH them in repositories
 
 - What is dockerfile ??
-is a blueprint (plan en français :p) for building images
+is a blueprint (plan en français :p) for BUILDING IMAGES 🏗️
 
-DockerFile Syntax:
------------------------------------------------------------------------------------
-FROM node    => equivalent to : install node
+📄 DockerFile Syntax:
+▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️
+▶️ FROM node    => equivalent to : install node
 
-ENV MONGO_DB_USERNAME=admin \      => equivalent to : setMONGO_DB_USERNAME=admin
+▶️ ENV MONGO_DB_USERNAME=admin \      => equivalent to : setMONGO_DB_USERNAME=admin
     MONGO_DB_PWD=pasword           => quivalent to :  set MONGO_DB_PWD=pasword
 
 ## RUN => execute any linux command 
-RUN mkdir -p /home/app   => directory created INSIDE of the CONTAINER
+▶️ RUN mkdir -p /home/app   => directory created INSIDE of the CONTAINER
 
 ## COPY => executes on the HOST MACHINE !!!!
-COPY . /home/app         => copy current folder files to /home/app
+▶️ COPY . /home/app         => copy current folder files to /home/app
 
 # set default dir so that next commands executes in /home/app dir
-WORKDIR /home/app
+▶️ WORKDIR /home/app
 
 # will execute npm install in /home/app because of WORKDIR
-RUN npm install
+▶️ RUN npm install
 
 ## CMD => enrypoint command
 ## you can have multiple RUN commands
-CMD["node", "server.js"]  => equivalent to : node server.js
-NB: Node is pre-installed because of base image 
-----------------------------------------------------------------------------------
+▶️ CMD["node", "server.js"]  => equivalent to : node server.js
+🔔 NB: Node is pre-installed because of base image 
+▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️▫️
 
-
-NB:
+⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️
 **********************************
 ** EVERY IMAGE USE A BASE IMAGE **
 **********************************
+
 
 - SO the diagram of images layers is like that
 ==================
@@ -197,10 +199,10 @@ $ docker exec -it 490d0b23b1b1 /bin/sh
 
 
 
-############# PRIVATE DOCKER REGISTRY ############
+✔️ ############# PRIVATE DOCKER REGISTRY ############
 
 
-############# DOCER VOLUMES #######################
+✔️ ############# DOCER VOLUMES #######################
 
  🛢️ For DATA PERSISTENCE : DB, Statefull applications, ...
 
